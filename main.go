@@ -5,7 +5,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockruntime"
-
 	"log"
 )
 
@@ -33,5 +32,6 @@ func init() {
 }
 
 func main() {
-	//gobedrock.HandleRetrieveAndGenerate(w, r, BedrockAgentRuntimeClient)
+
+	HandleRetrieveAndGenerate(BedrockAgentRuntimeClient)
 }

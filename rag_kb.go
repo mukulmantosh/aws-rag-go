@@ -6,10 +6,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockagentruntime/types"
-	"net/http"
 )
 
-func HandleRetrieveAndGenerate(w http.ResponseWriter, r *http.Request, client *bedrockagentruntime.Client) {
+func HandleRetrieveAndGenerate(client *bedrockagentruntime.Client) {
 
 	// parse user messages
 	type Content struct {
@@ -22,20 +21,19 @@ func HandleRetrieveAndGenerate(w http.ResponseWriter, r *http.Request, client *b
 		Content []Content `json:"content"`
 	}
 
-	var request struct {
-		Messages []Message `json:"messages"`
-	}
+	//var request struct {
+	//	Messages []Message `json:"messages"`
+	//}
 
-	error := json.NewDecoder(r.Body).Decode(&request)
-
-	if error != nil {
-		fmt.Println(error)
-	}
-
-	messages := request.Messages
+	//error := json.NewDecoder(r.Body).Decode(&request)
+	//
+	//if error != nil {
+	//	fmt.Println(error)
+	//}
+	//
 
 	// pop the last message as user question
-	userQuestion := messages[len(messages)-1].Content[0].Text
+	userQuestion := "What time is it?"
 
 	// invoke bedrock agent runtime to retrieve and generate
 	output, error := client.RetrieveAndGenerate(
@@ -47,11 +45,11 @@ func HandleRetrieveAndGenerate(w http.ResponseWriter, r *http.Request, client *b
 			RetrieveAndGenerateConfiguration: &types.RetrieveAndGenerateConfiguration{
 				Type: types.RetrieveAndGenerateTypeKnowledgeBase,
 				KnowledgeBaseConfiguration: &types.KnowledgeBaseRetrieveAndGenerateConfiguration{
-					KnowledgeBaseId: aws.String(KNOWLEDGE_BASE_ID),
-					ModelArn:        aws.String(KNOWLEDGE_BASE_MODEL_ID),
+					KnowledgeBaseId: aws.String("BDKIVJYOVN"),
+					ModelArn:        aws.String("anthropic.claude-3-haiku-20240307-v1:0"),
 					RetrievalConfiguration: &types.KnowledgeBaseRetrievalConfiguration{
 						VectorSearchConfiguration: &types.KnowledgeBaseVectorSearchConfiguration{
-							NumberOfResults: aws.Int32(KNOWLEDGE_BASE_NUMBER_OF_RESULT),
+							NumberOfResults: aws.Int32(6),
 						},
 					},
 				},
@@ -64,6 +62,9 @@ func HandleRetrieveAndGenerate(w http.ResponseWriter, r *http.Request, client *b
 	}
 
 	// write output to client
-	json.NewEncoder(w).Encode(output)
+	//json.NewEncoder(w).Encode(output)
+	result := output.Output.Text
+
+	fmt.Printf("%+v", *result)
 
 }
