@@ -42,8 +42,8 @@ func (bedrockAgent *BedrockAgent) RetrieveResponseFromKnowledgeBase(question str
 			RetrieveAndGenerateConfiguration: &types.RetrieveAndGenerateConfiguration{
 				Type: types.RetrieveAndGenerateTypeKnowledgeBase,
 				KnowledgeBaseConfiguration: &types.KnowledgeBaseRetrieveAndGenerateConfiguration{
-					KnowledgeBaseId: aws.String(KNOWLEDGE_BASE_ID),
-					ModelArn:        aws.String(MODEL_ARN),
+					KnowledgeBaseId: aws.String(KnowledgeBaseId),
+					ModelArn:        aws.String(ModelArn),
 					RetrievalConfiguration: &types.KnowledgeBaseRetrievalConfiguration{
 						VectorSearchConfiguration: &types.KnowledgeBaseVectorSearchConfiguration{
 							NumberOfResults: aws.Int32(6),
