@@ -32,7 +32,7 @@ func NewBedrock() *BedrockAgent {
 }
 
 func (bedrockAgent *BedrockAgent) RetrieveResponseFromKnowledgeBase(question string) string {
-	// invoke bedrock agent runtime to retrieve and generate.
+	// invoke bedrock agent runtime to retrieve and generate
 	output, err := bedrockAgent.Client.RetrieveAndGenerate(
 		context.TODO(),
 		&bedrockagentruntime.RetrieveAndGenerateInput{
